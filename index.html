@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giphy API Practice</title>
+  </head>
+  <body>
+    <div><img src="#" alt="" /></div>
+    <input type="text" name="search-term" id="search-term" />
+    <button>New Image</button>
+    <script>
+      const img = document.querySelector("img");
+      const btn = document.querySelector("button");
+      const searchInput = document.querySelector("#search-term");
+      function newImage(searchPhrase, apiKey) {
+        fetch(
+          `https://api.giphy.com/v1/gifs/translate?api_key=${apiKey}&s=${searchPhrase}`,
+          { mode: "cors" }
+        )
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (response) {
+            img.src = response.data.images.original.url;
+          })
+          .catch(function (error) {
+            // Default gif if there is an error
+            img.src = "https://media.giphy.com/media/xT0xeQqkv9Iyw/giphy.gif";
+          });
+      }
+      btn.addEventListener("click", () => {
+        const searchTerm = searchInput.value;
+        const apiKey = "placeholder";
+        newImage(searchTerm, apiKey);
+        searchInput.value = "";
+      });
+    </script>
+  </body>
+</html>
